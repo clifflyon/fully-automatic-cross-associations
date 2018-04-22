@@ -143,13 +143,9 @@ class Matrix:
         if self._D_non_zero is None:
             self._D_non_zero = np.zeros(
                 (self.num_row_clusters, self.num_col_clusters))
-            # for i, c in enumerate(self._col_clusters):
-            #     for j, r in enumerate(self._row_clusters):
-            #         self._D_non_zero[r, c] += \
-            #             self._dok_copy[j, i].astype(int)
             for i in range(self.num_row_clusters):
+                rX = np.ravel(np.nonzero(np.array(self._row_clusters) == i))
                 for j in range(self.num_col_clusters):
-                    rX = np.ravel(np.nonzero(np.array(self._row_clusters) == i))
                     cX = np.ravel(np.nonzero(np.array(self._col_clusters) == j))
                     self._D_non_zero[i, j] = np.sum(self._dok_copy[rX, :][:, cX])       
         return self._D_non_zero
